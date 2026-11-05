@@ -18,6 +18,7 @@ const links = [
 ]
 
 const customerLinks = [
+  { label: 'My Page', to: '/customer' },
   { label: 'My Bookings', to: '/my-bookings' },
   { label: 'Favourites', to: '/favourites' },
   { label: 'History', to: '/history' },
@@ -49,11 +50,13 @@ export default function Navbar() {
   useEffect(() => setOpen(false), [current])
 
   const logout = () => {
-    // TODO (Haris): add the /api/accounts/logout/ endpoint.
-    client.post('/accounts/logout/').finally(() => {
-      setUser(null)
-      navigate('/')
-    })
+    client
+      .post('/accounts/logout/')
+      .then(() => {
+        setUser(null)
+        navigate('/')
+      })
+      .catch(() => alert('Could not log out, please try again.'))
   }
 
   return (
@@ -82,7 +85,7 @@ export default function Navbar() {
           {user ? (
             <Dropdown align="end">
               <Dropdown.Toggle variant="" className="btn-outline-nav d-inline-flex align-items-center gap-2">
-                <FiUser /> {user.username}
+                <FiUser /> {user.name}
               </Dropdown.Toggle>
               <Dropdown.Menu className="account-menu">
                 {accountLinks.map((l) => (

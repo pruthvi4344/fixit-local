@@ -657,6 +657,38 @@ main { background: #fff; }
 .account-menu { border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
 .account-menu .dropdown-item:active { background: var(--orange); }
 
+/* ---------- Login, sign up and dashboard ---------- */
+.auth-card {
+  max-width: 460px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-sm);
+}
+.role-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.role-option {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--navy);
+}
+.role-option small { display: block; font-weight: 500; color: var(--muted); }
+.role-option.selected { border-color: var(--orange); background: var(--orange-soft); }
+.form-card {
+  max-width: 720px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+.category-checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 4px 12px; }
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1199.98px) {
   .service-card { flex-basis: calc((100% - 5 * 16px) / 6); }

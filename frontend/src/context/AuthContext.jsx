@@ -3,16 +3,23 @@ import client from '../api/client.js'
 
 const AuthContext = createContext(null)
 
+// Where each kind of user lands after logging in.
+export function homeFor(user) {
+  if (user.role === 'provider') return '/dashboard'
+  if (user.role === 'customer') return '/customer'
+  return '/'
+}
+
 export function AuthProvider({ children }) {
-  // user: { id, username, role: 'customer' | 'provider' } or null for guests
+  // user: { id, name, email, role: 'customer' | 'provider' } or null for guests
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // TODO (Haris): add the /api/accounts/me/ endpoint.
+    // Ask Django if this browser already has a logged in session.
     client
       .get('/accounts/me/')
-      .then((res) => setUser(res.data))
+      .then((res) => setUser(res.data.user))
       .catch(() => setUser(null))
       .finally(() => setLoading(false))
   }, [])
