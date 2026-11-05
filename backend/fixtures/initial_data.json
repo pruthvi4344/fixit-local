@@ -1,1 +1,79 @@
-[]
+[
+  {
+    "model": "services.servicecategory",
+    "pk": 1,
+    "fields": {
+      "name": "Plumbing"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 2,
+    "fields": {
+      "name": "Electrical"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 3,
+    "fields": {
+      "name": "Cleaning"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 4,
+    "fields": {
+      "name": "Painting"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 5,
+    "fields": {
+      "name": "Carpentry"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 6,
+    "fields": {
+      "name": "Appliance Repair"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 7,
+    "fields": {
+      "name": "HVAC"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 8,
+    "fields": {
+      "name": "Landscaping"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 9,
+    "fields": {
+      "name": "Handyman"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 10,
+    "fields": {
+      "name": "Moving Help"
+    }
+  },
+  {
+    "model": "services.servicecategory",
+    "pk": 11,
+    "fields": {
+      "name": "Pest Control"
+    }
+  }
+]

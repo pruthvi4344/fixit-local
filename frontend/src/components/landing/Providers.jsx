@@ -58,7 +58,7 @@ export default function Providers() {
             </ul>
 
             <Reveal delay={0.4}>
-              <MotionLink to="/signup" className="btn btn-orange btn-lg-pad" whileHover={{ x: 4 }}>
+              <MotionLink to="/signup?role=provider" className="btn btn-orange btn-lg-pad" whileHover={{ x: 4 }}>
                 Become a Provider <FiArrowRight />
               </MotionLink>
             </Reveal>

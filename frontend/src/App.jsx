@@ -4,6 +4,7 @@ import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
+import CustomerHome from './pages/CustomerHome.jsx'
 import ProviderDetail from './pages/ProviderDetail.jsx'
 import Booking from './pages/Booking.jsx'
 import MyBookings from './pages/MyBookings.jsx'
@@ -64,6 +65,10 @@ export default function App() {
               <Route path="/my-bookings" element={<MyBookings />} />
               <Route path="/review/:bookingId" element={<Review />} />
               <Route path="/favourites" element={<Favourites />} />
+            </Route>
+
+            <Route element={<ProtectedRoute role="customer" />}>
+              <Route path="/customer" element={<CustomerHome />} />
             </Route>
 
             <Route element={<ProtectedRoute role="provider" />}>
