@@ -1,10 +1,11 @@
 import { useEffect } from 'react'
 import { Routes, Route, Outlet, useLocation } from 'react-router-dom'
+import { MotionConfig } from 'framer-motion'
 import Navbar from './components/Navbar.jsx'
 import Footer from './components/Footer.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
-import CustomerHome from './pages/CustomerHome.jsx'
+import Services from './pages/Services.jsx'
 import ProviderDetail from './pages/ProviderDetail.jsx'
 import Booking from './pages/Booking.jsx'
 import MyBookings from './pages/MyBookings.jsx'
@@ -21,18 +22,19 @@ import Team from './pages/Team.jsx'
 
 // Scroll to #section links (e.g. /#services), or to the top on page change.
 function ScrollManager() {
-  const { pathname, hash, key } = useLocation()
+  const { pathname, hash, key, state } = useLocation()
 
   useEffect(() => {
+    if (state?.keepScroll) return // filtering the services page shouldn't jump to the top
     const target = hash && document.getElementById(hash.slice(1))
     if (target) target.scrollIntoView()
     else window.scrollTo(0, 0)
-  }, [pathname, hash, key])
+  }, [pathname, hash, key, state])
 
   return null
 }
 
-// Every page except the full-width landing page sits in a padded container below the fixed navbar.
+// Every page except the full-width ones (home, services, profile) sits in a padded container below the fixed navbar.
 function PageLayout() {
   return (
     <div className="container-xl page-body">
@@ -43,15 +45,17 @@ function PageLayout() {
 
 export default function App() {
   return (
-    <>
+    // reducedMotion="user" turns animations off for people who ask their device for that.
+    <MotionConfig reducedMotion="user">
       <ScrollManager />
       <Navbar />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/providers/:id" element={<ProviderDetail />} />
 
           <Route element={<PageLayout />}>
-            <Route path="/providers/:id" element={<ProviderDetail />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -67,10 +71,6 @@ export default function App() {
               <Route path="/favourites" element={<Favourites />} />
             </Route>
 
-            <Route element={<ProtectedRoute role="customer" />}>
-              <Route path="/customer" element={<CustomerHome />} />
-            </Route>
-
             <Route element={<ProtectedRoute role="provider" />}>
               <Route path="/dashboard" element={<ProviderDashboard />} />
             </Route>
@@ -78,6 +78,6 @@ export default function App() {
         </Routes>
       </main>
       <Footer />
-    </>
+    </MotionConfig>
   )
 }

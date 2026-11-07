@@ -6,7 +6,7 @@ const AuthContext = createContext(null)
 // Where each kind of user lands after logging in.
 export function homeFor(user) {
   if (user.role === 'provider') return '/dashboard'
-  if (user.role === 'customer') return '/customer'
+  if (user.role === 'customer') return '/services'
   return '/'
 }
 

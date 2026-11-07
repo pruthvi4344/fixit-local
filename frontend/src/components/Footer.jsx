@@ -7,14 +7,14 @@ import { Logo } from './shared.jsx'
 
 const quick = [
   { label: 'Home', to: '/' },
-  { label: 'Services', to: '/#services' },
+  { label: 'Services', to: '/services' },
   { label: 'How It Works', to: '/#how-it-works' },
   { label: 'For Providers', to: '/#providers' },
   { label: 'About', to: '/about' },
   { label: 'Our Team', to: '/team' },
   { label: 'Contact', to: '/contact' },
 ]
-const popular = ['Plumbing', 'Electrical', 'Cleaning', 'Painting', 'Carpentry', 'Appliance Repair', 'HVAC', 'Landscaping', 'Pest Control', 'All Services']
+const popular = ['Plumbing', 'Electrical', 'Cleaning', 'Painting', 'Carpentry', 'Appliance Repair', 'HVAC', 'Landscaping', 'Pest Control']
 const socials = [
   { icon: <FaFacebookF />, label: 'Facebook' },
   { icon: <FaInstagram />, label: 'Instagram' },
@@ -54,7 +54,8 @@ export default function Footer() {
           <div className="col-6 col-md-4 col-lg-3">
             <h3 className="footer-head">Popular Services</h3>
             <ul className="list-unstyled footer-links two-col">
-              {popular.map((p) => <li key={p}><Link to="/#services">{p}</Link></li>)}
+              {popular.map((p) => <li key={p}><Link to={`/services?category=${encodeURIComponent(p)}`}>{p}</Link></li>)}
+              <li><Link to="/services">All Services</Link></li>
             </ul>
           </div>
 

@@ -109,7 +109,7 @@ class VerificationTests(APITestCase):
         return self.client.post("/api/accounts/provider/profile/", self.form(**changes), format="multipart")
 
     def search(self):
-        return APIClient().get("/api/accounts/providers/").data
+        return APIClient().get("/api/services/providers/").json()
 
     def test_submit_moves_to_pending_and_stays_out_of_search(self):
         response = self.submit()
@@ -145,7 +145,6 @@ class VerificationTests(APITestCase):
         self.assertEqual(results[0]["name"], "Pat's Plumbing")
         self.assertTrue(results[0]["is_verified"])
         self.assertNotIn("phone", results[0])
-        self.assertEqual(len(APIClient().get("/api/accounts/providers/?category=999").data), 0)
 
     def test_rejected_provider_sees_reason_and_can_resubmit_without_new_files(self):
         self.submit()

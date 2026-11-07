@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi'
 import { Reveal, SectionTitle } from '../shared.jsx'
@@ -12,6 +13,8 @@ import hvac from '../../assets/icons/hvac.webp'
 import landscaping from '../../assets/icons/landscaping.webp'
 import handyman from '../../assets/icons/handyman.webp'
 import moving from '../../assets/icons/moving.webp'
+
+const MotionLink = motion.create(Link)
 
 export const serviceList = [
   { name: 'Plumbing', icon: plumbing },
@@ -48,9 +51,9 @@ export default function Services() {
             Everything Your Home Needs
           </SectionTitle>
           <Reveal from="right">
-            <a href="#services" className="link-arrow">
+            <Link to="/services" className="link-arrow">
               View All Services <FiArrowRight />
-            </a>
+            </Link>
           </Reveal>
         </div>
 
@@ -60,8 +63,8 @@ export default function Services() {
           </button>
           <div className="service-track" ref={track}>
             {serviceList.map((s, i) => (
-              <motion.a
-                href="#services"
+              <MotionLink
+                to={`/services?category=${encodeURIComponent(s.name)}`}
                 key={s.name}
                 className="service-card"
                 initial={{ opacity: 0, y: 30 }}
@@ -79,7 +82,7 @@ export default function Services() {
                   transition={{ duration: 0.6 }}
                 />
                 <span>{s.name}</span>
-              </motion.a>
+              </MotionLink>
             ))}
           </div>
           <button className="round-btn round-btn-outline carousel-next" onClick={() => scroll(1)} aria-label="Next services">
