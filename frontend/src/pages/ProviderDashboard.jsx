@@ -16,7 +16,7 @@ const emptyForm = {
 // The banner at the top changes with the verification status.
 function StatusBanner({ profile }) {
   if (profile.status === 'incomplete') {
-    return <Alert variant="warning">Complete your profile to get verified.</Alert>
+    return <Alert variant="warning"><Badge bg="warning" text="dark" className="me-2">Not submitted</Badge>Complete your profile to get verified.</Alert>
   }
   if (profile.status === 'pending') {
     return <Alert variant="info"><Badge bg="info" className="me-2">Pending</Badge>Thanks! An admin is reviewing your details.</Alert>

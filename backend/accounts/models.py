@@ -26,7 +26,7 @@ class CustomerProfile(models.Model):
 
 class ProviderProfile(models.Model):
     class Status(models.TextChoices):
-        INCOMPLETE = "incomplete", "Incomplete"  # just registered, form not sent yet
+        INCOMPLETE = "incomplete", "Not submitted"  # just registered, form not sent yet
         PENDING = "pending", "Pending"  # form sent, waiting for the admin
         VERIFIED = "verified", "Verified"  # approved, shows up in search
         REJECTED = "rejected", "Rejected"  # provider can fix it and send it again
