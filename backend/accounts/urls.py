@@ -8,6 +8,5 @@ urlpatterns = [
     path("logout/", views.LogoutView.as_view()),
     path("me/", views.MeView.as_view()),
     path("provider/profile/", views.ProviderProfileView.as_view()),
-    path("providers/", views.ProviderListView.as_view()),
     path("providers/<int:pk>/id-document/", views.ProviderDocumentView.as_view(), name="provider-id-document"),
 ]

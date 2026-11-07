@@ -75,5 +75,651 @@
     "fields": {
       "name": "Pest Control"
     }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1001,
+    "fields": {
+      "username": "sample1@example.com",
+      "email": "sample1@example.com",
+      "first_name": "Marco",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1001,
+    "fields": {
+      "user": 1001,
+      "phone": "519-555-0100",
+      "business_name": "Clearflow Plumbing",
+      "categories": [
+        1
+      ],
+      "service_area": "Windsor, LaSalle, Tecumseh",
+      "years_experience": 14,
+      "bio": "Family-run plumbers who show up on time and clean up after themselves. From a dripping tap to a full bathroom refit, we explain the price before we start.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1001,
+    "fields": {
+      "provider": 1001,
+      "category": 1,
+      "title": "Fix a leaking tap",
+      "price": "85.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1002,
+    "fields": {
+      "provider": 1001,
+      "category": 1,
+      "title": "Unblock a drain",
+      "price": "120.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1003,
+    "fields": {
+      "provider": 1001,
+      "category": 1,
+      "title": "Install a new toilet",
+      "price": "210.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1004,
+    "fields": {
+      "provider": 1001,
+      "category": 1,
+      "title": "Replace a water heater",
+      "price": "650.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1002,
+    "fields": {
+      "username": "sample2@example.com",
+      "email": "sample2@example.com",
+      "first_name": "Priya",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1002,
+    "fields": {
+      "user": 1002,
+      "phone": "519-555-0101",
+      "business_name": "BrightWire Electric",
+      "categories": [
+        2
+      ],
+      "service_area": "Windsor, Tecumseh",
+      "years_experience": 11,
+      "bio": "Licensed electricians for homes of every age. We make old wiring safe, add the outlets you need, and leave everything tested and labelled.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1005,
+    "fields": {
+      "provider": 1002,
+      "category": 2,
+      "title": "Replace a light fixture",
+      "price": "95.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1006,
+    "fields": {
+      "provider": 1002,
+      "category": 2,
+      "title": "Install a new outlet",
+      "price": "130.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1007,
+    "fields": {
+      "provider": 1002,
+      "category": 2,
+      "title": "Fit a ceiling fan",
+      "price": "160.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1008,
+    "fields": {
+      "provider": 1002,
+      "category": 2,
+      "title": "Upgrade an electrical panel",
+      "price": "1400.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1003,
+    "fields": {
+      "username": "sample3@example.com",
+      "email": "sample3@example.com",
+      "first_name": "Amara",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1003,
+    "fields": {
+      "user": 1003,
+      "phone": "519-555-0102",
+      "business_name": "Spotless Homes",
+      "categories": [
+        3
+      ],
+      "service_area": "Windsor, LaSalle, Amherstburg",
+      "years_experience": 6,
+      "bio": "Friendly, thorough home cleaning using products that are safe for kids and pets. Regular visits or a one-time deep clean, your choice.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1009,
+    "fields": {
+      "provider": 1003,
+      "category": 3,
+      "title": "Standard home clean",
+      "price": "110.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1010,
+    "fields": {
+      "provider": 1003,
+      "category": 3,
+      "title": "Deep clean",
+      "price": "220.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1011,
+    "fields": {
+      "provider": 1003,
+      "category": 3,
+      "title": "Move-out clean",
+      "price": "280.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1004,
+    "fields": {
+      "username": "sample4@example.com",
+      "email": "sample4@example.com",
+      "first_name": "Daniel",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1004,
+    "fields": {
+      "user": 1004,
+      "phone": "519-555-0103",
+      "business_name": "FreshCoat Painters",
+      "categories": [
+        4
+      ],
+      "service_area": "Windsor, LaSalle",
+      "years_experience": 9,
+      "bio": "Careful interior and exterior painters. We protect your floors and furniture, fill the cracks, and finish clean straight lines.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1012,
+    "fields": {
+      "provider": 1004,
+      "category": 4,
+      "title": "Paint a single room",
+      "price": "320.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1013,
+    "fields": {
+      "provider": 1004,
+      "category": 4,
+      "title": "Paint a front door",
+      "price": "140.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1014,
+    "fields": {
+      "provider": 1004,
+      "category": 4,
+      "title": "Paint a whole apartment",
+      "price": "1250.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1005,
+    "fields": {
+      "username": "sample5@example.com",
+      "email": "sample5@example.com",
+      "first_name": "Hannah",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1005,
+    "fields": {
+      "user": 1005,
+      "phone": "519-555-0104",
+      "business_name": "Oak & Grain Carpentry",
+      "categories": [
+        5
+      ],
+      "service_area": "Windsor, Tecumseh, Amherstburg",
+      "years_experience": 17,
+      "bio": "Custom shelves, repairs and trim work built to last. If it is made of wood, we can probably fix it or build it.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1015,
+    "fields": {
+      "provider": 1005,
+      "category": 5,
+      "title": "Repair a door or frame",
+      "price": "125.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1016,
+    "fields": {
+      "provider": 1005,
+      "category": 5,
+      "title": "Build custom shelves",
+      "price": "380.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1017,
+    "fields": {
+      "provider": 1005,
+      "category": 5,
+      "title": "Install baseboards",
+      "price": "460.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1006,
+    "fields": {
+      "username": "sample6@example.com",
+      "email": "sample6@example.com",
+      "first_name": "Yusuf",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1006,
+    "fields": {
+      "user": 1006,
+      "phone": "519-555-0105",
+      "business_name": "FixRight Appliance Repair",
+      "categories": [
+        6
+      ],
+      "service_area": "Windsor, LaSalle, Tecumseh",
+      "years_experience": 12,
+      "bio": "Same-week repairs for washers, dryers, fridges and ovens. Most jobs are finished in one visit because we carry common parts.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1018,
+    "fields": {
+      "provider": 1006,
+      "category": 6,
+      "title": "Diagnose an appliance",
+      "price": "75.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1019,
+    "fields": {
+      "provider": 1006,
+      "category": 6,
+      "title": "Repair a washer or dryer",
+      "price": "165.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1020,
+    "fields": {
+      "provider": 1006,
+      "category": 6,
+      "title": "Repair a fridge",
+      "price": "190.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1007,
+    "fields": {
+      "username": "sample7@example.com",
+      "email": "sample7@example.com",
+      "first_name": "Grace",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1007,
+    "fields": {
+      "user": 1007,
+      "phone": "519-555-0106",
+      "business_name": "CoolBreeze HVAC",
+      "categories": [
+        7
+      ],
+      "service_area": "Windsor, Tecumseh, Amherstburg",
+      "years_experience": 15,
+      "bio": "Heating and cooling you can rely on through Windsor summers and winters. Tune-ups, repairs and honest advice on when to replace.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1021,
+    "fields": {
+      "provider": 1007,
+      "category": 7,
+      "title": "Furnace tune-up",
+      "price": "129.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1022,
+    "fields": {
+      "provider": 1007,
+      "category": 7,
+      "title": "AC tune-up",
+      "price": "129.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1023,
+    "fields": {
+      "provider": 1007,
+      "category": 7,
+      "title": "Replace a thermostat",
+      "price": "175.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1024,
+    "fields": {
+      "provider": 1007,
+      "category": 7,
+      "title": "Repair a furnace",
+      "price": "320.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1008,
+    "fields": {
+      "username": "sample8@example.com",
+      "email": "sample8@example.com",
+      "first_name": "Tomas",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1008,
+    "fields": {
+      "user": 1008,
+      "phone": "519-555-0107",
+      "business_name": "GreenLeaf Yards",
+      "categories": [
+        8
+      ],
+      "service_area": "LaSalle, Amherstburg",
+      "years_experience": 8,
+      "bio": "Lawn care and garden tidy-ups that keep your yard looking great all season, plus spring and fall clean-ups.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1025,
+    "fields": {
+      "provider": 1008,
+      "category": 8,
+      "title": "Lawn mowing",
+      "price": "55.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1026,
+    "fields": {
+      "provider": 1008,
+      "category": 8,
+      "title": "Hedge trimming",
+      "price": "95.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1027,
+    "fields": {
+      "provider": 1008,
+      "category": 8,
+      "title": "Spring or fall clean-up",
+      "price": "240.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1009,
+    "fields": {
+      "username": "sample9@example.com",
+      "email": "sample9@example.com",
+      "first_name": "Leah",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1009,
+    "fields": {
+      "user": 1009,
+      "phone": "519-555-0108",
+      "business_name": "Handy Neighbours",
+      "categories": [
+        9
+      ],
+      "service_area": "Windsor, LaSalle, Tecumseh",
+      "years_experience": 5,
+      "bio": "All those small jobs on your to-do list, done in one visit. Hanging shelves, assembling furniture, patching walls and more.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1028,
+    "fields": {
+      "provider": 1009,
+      "category": 9,
+      "title": "Mount a TV",
+      "price": "80.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1029,
+    "fields": {
+      "provider": 1009,
+      "category": 9,
+      "title": "Assemble furniture",
+      "price": "90.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1030,
+    "fields": {
+      "provider": 1009,
+      "category": 9,
+      "title": "Patch and repair drywall",
+      "price": "150.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1010,
+    "fields": {
+      "username": "sample10@example.com",
+      "email": "sample10@example.com",
+      "first_name": "Omar",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1010,
+    "fields": {
+      "user": 1010,
+      "phone": "519-555-0109",
+      "business_name": "EasyLift Movers",
+      "categories": [
+        10
+      ],
+      "service_area": "Windsor, LaSalle, Tecumseh, Amherstburg",
+      "years_experience": 7,
+      "bio": "Careful movers for apartments and houses. We wrap your furniture, carry it safely, and set it up where you want it.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1031,
+    "fields": {
+      "provider": 1010,
+      "category": 10,
+      "title": "Two movers for two hours",
+      "price": "180.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1032,
+    "fields": {
+      "provider": 1010,
+      "category": 10,
+      "title": "Studio apartment move",
+      "price": "340.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1033,
+    "fields": {
+      "provider": 1010,
+      "category": 10,
+      "title": "Three bedroom home move",
+      "price": "890.00"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1011,
+    "fields": {
+      "username": "sample11@example.com",
+      "email": "sample11@example.com",
+      "first_name": "Nadia",
+      "password": "!"
+    }
+  },
+  {
+    "model": "accounts.providerprofile",
+    "pk": 1011,
+    "fields": {
+      "user": 1011,
+      "phone": "519-555-0110",
+      "business_name": "PestAway Windsor",
+      "categories": [
+        11
+      ],
+      "service_area": "Windsor, Tecumseh",
+      "years_experience": 10,
+      "bio": "Discreet and effective treatment for ants, mice, wasps and more, with advice on how to keep them from coming back.",
+      "status": "verified"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1034,
+    "fields": {
+      "provider": 1011,
+      "category": 11,
+      "title": "Wasp nest removal",
+      "price": "145.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1035,
+    "fields": {
+      "provider": 1011,
+      "category": 11,
+      "title": "Ant treatment",
+      "price": "160.00"
+    }
+  },
+  {
+    "model": "services.service",
+    "pk": 1036,
+    "fields": {
+      "provider": 1011,
+      "category": 11,
+      "title": "Mouse control plan",
+      "price": "230.00"
+    }
   }
 ]

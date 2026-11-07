@@ -1,32 +1,41 @@
-import { useState } from 'react'
-import { Form, Button, InputGroup } from 'react-bootstrap'
+import { motion } from 'framer-motion'
+import { FiChevronDown, FiGrid, FiSearch } from 'react-icons/fi'
 
 // Keyword + category drop-down. Owner: Yashkumar
-export default function SearchBar({ categories = [], onSearch }) {
-  const [keyword, setKeyword] = useState('')
-  const [category, setCategory] = useState('')
-
+// The page that uses this keeps the values, so the URL can stay in sync with them.
+export default function SearchBar({ keyword, category, categories, onKeywordChange, onCategoryChange, onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSearch?.({ keyword, category })
+    onSubmit()
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <InputGroup>
-        <Form.Control
-          placeholder="What do you need fixed?"
+    <form className="search-card search-card-wide" onSubmit={handleSubmit} role="search">
+      <label className="search-field search-field-keyword">
+        <FiSearch className="text-orange" />
+        <input
+          type="search"
+          placeholder="Try &quot;leaking tap&quot; or &quot;LaSalle&quot;"
+          aria-label="Search by keyword"
           value={keyword}
-          onChange={(e) => setKeyword(e.target.value)}
+          onChange={(e) => onKeywordChange(e.target.value)}
         />
-        <Form.Select value={category} onChange={(e) => setCategory(e.target.value)} style={{ maxWidth: 200 }}>
+      </label>
+
+      <label className="search-field">
+        <FiGrid className="opacity-75" />
+        <select aria-label="Category" value={category} onChange={(e) => onCategoryChange(e.target.value)}>
           <option value="">All categories</option>
           {categories.map((c) => (
-            <option key={c.id} value={c.id}>{c.name}</option>
+            <option key={c.id} value={c.name}>{c.name}</option>
           ))}
-        </Form.Select>
-        <Button type="submit">Search</Button>
-      </InputGroup>
-    </Form>
+        </select>
+        <FiChevronDown className="chev" />
+      </label>
+
+      <motion.button type="submit" className="btn btn-orange search-btn" whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+        Search
+      </motion.button>
+    </form>
   )
 }

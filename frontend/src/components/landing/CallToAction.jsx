@@ -1,7 +1,10 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowRight } from 'react-icons/fi'
 import { Reveal, Scribble } from '../shared.jsx'
 import street from '../../assets/ref-street.jpg'
+
+const MotionLink = motion.create(Link)
 
 export default function CallToAction() {
   return (
@@ -21,9 +24,9 @@ export default function CallToAction() {
           <h2>Ready to Get Started?</h2>
           <p>Find trusted local professionals and make your home a better place.</p>
           <div className="d-flex flex-wrap gap-2">
-            <motion.a href="#services" className="btn btn-orange btn-lg-pad" whileHover={{ x: 4 }}>
+            <MotionLink to="/services" className="btn btn-orange btn-lg-pad" whileHover={{ x: 4 }}>
               Find a Provider <FiArrowRight />
-            </motion.a>
+            </MotionLink>
             <motion.a href="#providers" className="btn btn-outline-dark-soft btn-lg-pad" whileHover={{ y: -2 }}>
               Become a Provider
             </motion.a>

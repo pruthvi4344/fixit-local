@@ -1,10 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +12,6 @@ from .models import ProviderProfile
 from .serializers import (
     LoginSerializer,
     ProviderProfileSerializer,
-    PublicProviderSerializer,
     RegisterSerializer,
     user_data,
 )
@@ -93,31 +91,6 @@ class ProviderProfileView(APIView):
         # Sending the form moves it to Pending and clears any old rejection.
         serializer.save(status=ProviderProfile.Status.PENDING, rejection_reason="")
         return Response(serializer.data)
-
-
-class ProviderListView(generics.ListAPIView):
-    """Search for customers. Only verified providers are ever listed."""
-
-    serializer_class = PublicProviderSerializer
-    permission_classes = [AllowAny]
-
-    def get_queryset(self):
-        providers = ProviderProfile.objects.filter(status=ProviderProfile.Status.VERIFIED)
-
-        keyword = self.request.query_params.get("q", "").strip()
-        if keyword:
-            providers = providers.filter(
-                Q(business_name__icontains=keyword)
-                | Q(bio__icontains=keyword)
-                | Q(service_area__icontains=keyword)
-                | Q(categories__name__icontains=keyword)
-            )
-
-        category = self.request.query_params.get("category", "")
-        if category.isdigit():
-            providers = providers.filter(categories__id=category)
-
-        return providers.distinct().order_by("business_name")
 
 
 class ProviderDocumentView(APIView):

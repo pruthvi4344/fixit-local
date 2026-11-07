@@ -126,14 +126,3 @@ class ProviderProfileSerializer(serializers.ModelSerializer):
         if errors:
             raise serializers.ValidationError(errors)
         return data
-
-
-class PublicProviderSerializer(serializers.ModelSerializer):
-    """What customers see in search, so no phone number or documents."""
-
-    name = serializers.CharField(source="business_name")
-    categories = serializers.StringRelatedField(many=True)
-
-    class Meta:
-        model = ProviderProfile
-        fields = ["id", "name", "categories", "service_area", "years_experience", "bio", "photo", "is_verified"]

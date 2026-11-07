@@ -10,7 +10,7 @@ import client from '../api/client.js'
 // Hash links scroll to sections on the home page; the rest are their own pages.
 const links = [
   { label: 'Home', to: '/' },
-  { label: 'Services', to: '/#services' },
+  { label: 'Services', to: '/services' },
   { label: 'How It Works', to: '/#how-it-works' },
   { label: 'For Providers', to: '/#providers' },
   { label: 'About', to: '/about' },
@@ -18,7 +18,6 @@ const links = [
 ]
 
 const customerLinks = [
-  { label: 'My Page', to: '/customer' },
   { label: 'My Bookings', to: '/my-bookings' },
   { label: 'Favourites', to: '/favourites' },
   { label: 'History', to: '/history' },

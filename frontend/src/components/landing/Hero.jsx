@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiMapPin, FiChevronDown, FiSearch, FiGrid } from 'react-icons/fi'
 import { MdVerifiedUser } from 'react-icons/md'
@@ -37,6 +38,17 @@ const item = {
 }
 
 export default function Hero() {
+  const navigate = useNavigate()
+
+  // Sends the two drop-downs to the services page as a search.
+  const handleSearch = (e) => {
+    e.preventDefault()
+    const form = new FormData(e.currentTarget)
+    const params = new URLSearchParams({ q: form.get('location').split(',')[0] })
+    if (form.get('service')) params.set('category', form.get('service'))
+    navigate(`/services?${params}`)
+  }
+
   return (
     <section id="home" className="hero">
       {/* Background video */}
@@ -76,11 +88,10 @@ export default function Hero() {
               Find trusted local professionals for all your home needs — quick, easy, and hassle-free.
             </motion.p>
 
-            {/* TODO (Yashkumar): hook this search up to the services API. */}
-            <motion.form variants={item} className="search-card" onSubmit={(e) => e.preventDefault()} role="search">
+            <motion.form variants={item} className="search-card" onSubmit={handleSearch} role="search">
               <label className="search-field">
                 <FiMapPin className="text-orange" />
-                <select defaultValue="Windsor, ON" aria-label="Location">
+                <select name="location" defaultValue="Windsor, ON" aria-label="Location">
                   <option>Windsor, ON</option>
                   <option>LaSalle, ON</option>
                   <option>Tecumseh, ON</option>
@@ -90,7 +101,7 @@ export default function Hero() {
               </label>
               <label className="search-field">
                 <FiGrid className="opacity-75" />
-                <select defaultValue="" aria-label="Service">
+                <select name="service" defaultValue="" aria-label="Service">
                   <option value="" disabled>Select a service</option>
                   {services.map((s) => <option key={s}>{s}</option>)}
                 </select>
