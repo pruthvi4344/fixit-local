@@ -54,6 +54,7 @@ class AuthTests(APITestCase):
         self.register(role="provider")
         profile = ProviderProfile.objects.get(user__email="sam@example.com")
         self.assertEqual(profile.status, "incomplete")
+        self.assertEqual(profile.get_status_display(), "Not submitted")
 
     def test_duplicate_email_is_refused(self):
         self.register()
@@ -84,9 +85,9 @@ class VerificationTests(APITestCase):
         # Keep test uploads out of the real folders.
         self.folder = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.folder, ignore_errors=True)
-        media = override_settings(MEDIA_ROOT=self.folder)
-        media.enable()
-        self.addCleanup(media.disable)
+        storage_settings = override_settings(MEDIA_ROOT=self.folder, PRIVATE_MEDIA_ROOT=self.folder)
+        storage_settings.enable()
+        self.addCleanup(storage_settings.disable)
         field = ProviderProfile._meta.get_field("id_document")
         old_storage = field.storage
         field.storage = FileSystemStorage(location=self.folder)
@@ -138,13 +139,23 @@ class VerificationTests(APITestCase):
         self.submit()
         self.assertEqual(self.submit().status_code, 400)
 
+    def test_cannot_submit_again_while_verified(self):
+        self.submit()
+        ProviderProfile.objects.update(status=ProviderProfile.Status.VERIFIED)
+        self.assertEqual(self.submit().status_code, 400)
+
     def test_verified_provider_appears_in_search(self):
         self.submit()
-        ProviderProfile.objects.update(status="verified")
+        ProviderProfile.objects.update(status=ProviderProfile.Status.VERIFIED)
         results = self.search()
         self.assertEqual(results[0]["name"], "Pat's Plumbing")
         self.assertTrue(results[0]["is_verified"])
         self.assertNotIn("phone", results[0])
+
+    def test_rejected_provider_does_not_appear_in_search(self):
+        self.submit()
+        ProviderProfile.objects.update(status=ProviderProfile.Status.REJECTED)
+        self.assertEqual(self.search(), [])
 
     def test_rejected_provider_sees_reason_and_can_resubmit_without_new_files(self):
         self.submit()
