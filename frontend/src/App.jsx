@@ -19,6 +19,7 @@ import UserHistory from './pages/UserHistory.jsx'
 import About from './pages/About.jsx'
 import Contact from './pages/Contact.jsx'
 import Team from './pages/Team.jsx'
+import client from './api/client.js'
 
 // Scroll to #section links (e.g. /#services), or to the top on page change.
 function ScrollManager() {
@@ -44,6 +45,11 @@ function PageLayout() {
 }
 
 export default function App() {
+  // Count one visit each time the site is opened (for My History).
+  useEffect(() => {
+    client.get('/history/visit/').catch(() => {})
+  }, [])
+
   return (
     // reducedMotion="user" turns animations off for people who ask their device for that.
     <MotionConfig reducedMotion="user">
