@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from . import views
 
@@ -9,4 +9,5 @@ urlpatterns = [
     path("me/", views.MeView.as_view()),
     path("provider/profile/", views.ProviderProfileView.as_view()),
     path("providers/<int:pk>/id-document/", views.ProviderDocumentView.as_view(), name="provider-id-document"),
+    path('', include('django.contrib.auth.urls')),
 ]
