@@ -4,6 +4,7 @@ from django.views.generic import DetailView, ListView
 from rest_framework import generics
 
 from accounts.models import ProviderProfile
+from history.utils import remember_search, remember_viewed_provider
 
 from .models import ServiceCategory, Service
 from .serializers import ProviderCardSerializer, ProviderDetailSerializer, ServiceCategorySerializer, ServiceSerializer
@@ -49,6 +50,9 @@ class ProviderListView(ListView):
         if category:
             providers = providers.filter(categories__name__iexact=category)
 
+                # Remember this search for the "My History" page (Deep).
+        if keyword or category:
+            remember_search(self.request, keyword, category)
         # distinct() because a provider can match through two services.
         return providers.distinct().order_by("business_name")
 
@@ -64,6 +68,12 @@ class ProviderDetailView(DetailView):
 
     def get_queryset(self):
         return verified_providers()
+
+    def get(self, request, *args, **kwargs):
+        response = super().get(request, *args, **kwargs)
+        # Remember which provider was viewed, for "My History" (Deep).
+        remember_viewed_provider(request, self.object.pk)
+        return response
 
     def render_to_response(self, context, **response_kwargs):
         serializer = ProviderDetailSerializer(context["object"], context={"request": self.request})
@@ -96,13 +106,3 @@ class ProviderServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Service.objects.filter(provider__user=self.request.user)
 
 
-class MeView(generics.RetrieveUpdateAPIView):
-    """
-    GET: Retrieve current user details
-    PUT/PATCH: Update name, phone number, and profile photo
-    """
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
