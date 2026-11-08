@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { Alert, Badge, Button, Card, Form, Modal, Table } from 'react-bootstrap'
 import client from '../api/client.js'
 import FieldError from '../components/FieldError.jsx'
+import ProviderBookingsPanel from '../components/ProviderBookingsPanel.jsx'
+import TimeSlotsPanel from '../components/TimeSlotsPanel.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 
 const emptyForm = {
@@ -187,6 +189,14 @@ export default function ProviderDashboard() {
       <p className="text-muted">Welcome, {user.name}</p>
 
       <StatusBanner profile={profile} />
+
+      {/* Devarsh Task: bookings and time slots (only verified providers show up to customers) */}
+      {profile.status === 'verified' && (
+        <>
+          <ProviderBookingsPanel />
+          <TimeSlotsPanel />
+        </>
+      )}
 
       {/* Haris Task: Services Management Section */}
       <Card className="mb-4 shadow-sm">

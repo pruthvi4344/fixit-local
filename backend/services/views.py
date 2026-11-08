@@ -7,7 +7,7 @@ from accounts.models import ProviderProfile
 from history.utils import remember_search, remember_viewed_provider
 
 from .models import ServiceCategory, Service
-from .serializers import ProviderCardSerializer, ProviderDetailSerializer, ServiceCategorySerializer, ServiceSerializer
+from .serializers import ProviderCardSerializer, ProviderDetailSerializer, ProviderServiceSerializer, ServiceCategorySerializer
 
 from rest_framework import generics, permissions
 
@@ -83,7 +83,7 @@ class ProviderServiceListCreateView(generics.ListCreateAPIView):
     """
     List services created by the logged-in provider, or create a new service.
     """
-    serializer_class = ServiceSerializer
+    serializer_class = ProviderServiceSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
@@ -99,7 +99,7 @@ class ProviderServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     Retrieve, update, or delete a specific service owned by the logged-in provider.
     """
-    serializer_class = ServiceSerializer
+    serializer_class = ProviderServiceSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):

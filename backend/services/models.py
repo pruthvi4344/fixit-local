@@ -23,6 +23,7 @@ class Service(models.Model):
     category = models.ForeignKey(ServiceCategory, on_delete=models.PROTECT, related_name="services")
     title = models.CharField(max_length=150)
     price = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)])
+    description = models.TextField(blank=True)
 
     class Meta:
         ordering = ["price"]  # cheapest first

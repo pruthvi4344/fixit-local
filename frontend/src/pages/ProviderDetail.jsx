@@ -8,6 +8,7 @@ import client from '../api/client.js'
 import ProviderAvatar from '../components/ProviderAvatar.jsx'
 import { categoryIcon, formatPrice } from '../components/providerHelpers.js'
 import { Float, Reveal } from '../components/shared.jsx'
+import SlotPicker from '../components/SlotPicker.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
 
 function LoadingProfile() {
@@ -136,15 +137,12 @@ export default function ProviderDetail() {
                     <small>{service.category}</small>
                   </div>
                   <span className="service-row-price">{formatPrice(service.price)}</span>
-                  {canBook && (
-                    <Link to={`/book/${service.id}`} className="btn btn-outline-nav service-row-book" aria-label={`Book ${service.title}`}>
-                      Book
-                    </Link>
-                  )}
                 </motion.li>
               ))}
             </ul>
           </section>
+
+          <SlotPicker providerId={provider.id} />
         </div>
 
         <aside>
@@ -160,10 +158,10 @@ export default function ProviderDetail() {
               <li><span className="check"><FiCheck /></span> {provider.years_experience} years of experience</li>
               <li><span className="check"><FiCheck /></span> Prices shown upfront</li>
             </ul>
-            {cheapest && canBook && (
-              <Link to={`/book/${cheapest.id}`} className="btn btn-orange btn-lg-pad w-100">
+            {canBook && (
+              <a href="#book" className="btn btn-orange btn-lg-pad w-100">
                 Book {provider.name.split(' ')[0]} <FiArrowRight />
-              </Link>
+              </a>
             )}
           </Reveal>
         </aside>
