@@ -1,6 +1,6 @@
-// Owner: Deep
+// Owner: Deep & Haris
 import { useEffect, useState } from 'react'
-import { Alert, Badge, Button, Form } from 'react-bootstrap'
+import { Alert, Badge, Button, Card, Form, Modal, Table } from 'react-bootstrap'
 import client from '../api/client.js'
 import FieldError from '../components/FieldError.jsx'
 import { useAuth } from '../context/AuthContext.jsx'
@@ -13,10 +13,17 @@ const emptyForm = {
   bio: '',
 }
 
+const emptyServiceForm = {
+  title: '',
+  category: '',
+  price: '',
+  description: '',
+}
+
 // The banner at the top changes with the verification status.
 function StatusBanner({ profile }) {
   if (profile.status === 'incomplete') {
-    return <Alert variant="warning">Complete your profile to get verified.</Alert>
+    return <Alert variant="warning"><Badge bg="warning" text="dark" className="me-2">Not submitted</Badge>Complete your profile to get verified.</Alert>
   }
   if (profile.status === 'pending') {
     return <Alert variant="info"><Badge bg="info" className="me-2">Pending</Badge>Thanks! An admin is reviewing your details.</Alert>
@@ -44,19 +51,37 @@ export default function ProviderDashboard() {
   const [loadError, setLoadError] = useState('')
   const [saving, setSaving] = useState(false)
 
+  // Haris Task: Services State
+  const [services, setServices] = useState([])
+  const [showServiceModal, setShowServiceModal] = useState(false)
+  const [serviceForm, setServiceForm] = useState(emptyServiceForm)
+  const [editingServiceId, setEditingServiceId] = useState(null)
+  const [serviceErrors, setServiceErrors] = useState({})
+  const [savingService, setSavingService] = useState(false)
+
+  const fetchServices = () => {
+    client.get('/services/my-services/')
+      .then((res) => setServices(res.data))
+      .catch((err) => console.error('Could not load services', err))
+  }
+
   useEffect(() => {
-    Promise.all([client.get('/accounts/provider/profile/'), client.get('/services/categories/')])
-      .then(([profileRes, categoriesRes]) => {
+    Promise.all([
+      client.get('/accounts/provider/profile/'),
+      client.get('/services/categories/'),
+      client.get('/services/my-services/').catch(() => ({ data: [] }))
+    ])
+      .then(([profileRes, categoriesRes, servicesRes]) => {
         const data = profileRes.data
         setProfile(data)
         setAllCategories(categoriesRes.data)
-        // After a rejection the form opens with what they sent last time.
+        setServices(servicesRes.data)
         setForm({
-          business_name: data.business_name,
-          categories: data.categories,
-          service_area: data.service_area,
+          business_name: data.business_name || '',
+          categories: data.categories || [],
+          service_area: data.service_area || '',
           years_experience: data.years_experience ?? '',
-          bio: data.bio,
+          bio: data.bio || '',
         })
       })
       .catch(() => setLoadError('Could not load your dashboard, please refresh the page.'))
@@ -77,7 +102,6 @@ export default function ProviderDashboard() {
     setSaving(true)
     setErrors({})
 
-    // FormData is needed because we are sending files.
     const data = new FormData()
     data.append('business_name', form.business_name)
     data.append('service_area', form.service_area)
@@ -97,18 +121,122 @@ export default function ProviderDashboard() {
       .finally(() => setSaving(false))
   }
 
+  // Haris Task: Manage Service CRUD Operations
+  const handleOpenModal = (service = null) => {
+    if (service) {
+      setEditingServiceId(service.id)
+      setServiceForm({
+        title: service.title,
+        category: service.category,
+        price: service.price,
+        description: service.description || '',
+      })
+    } else {
+      setEditingServiceId(null)
+      setServiceForm(emptyServiceForm)
+    }
+    setServiceErrors({})
+    setShowServiceModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowServiceModal(false)
+    setEditingServiceId(null)
+    setServiceForm(emptyServiceForm)
+  }
+
+  const handleServiceChange = (e) => {
+    setServiceForm({ ...serviceForm, [e.target.name]: e.target.value })
+  }
+
+  const handleServiceSubmit = (e) => {
+    e.preventDefault()
+    setSavingService(true)
+    setServiceErrors({})
+
+    const request = editingServiceId
+      ? client.put(`/services/my-services/${editingServiceId}/`, serviceForm)
+      : client.post('/services/my-services/', serviceForm)
+
+    request
+      .then(() => {
+        fetchServices()
+        handleCloseModal()
+      })
+      .catch((err) => setServiceErrors(err.response?.data ?? { detail: 'Failed to save service.' }))
+      .finally(() => setSavingService(false))
+  }
+
+  const handleDeleteService = (id) => {
+    if (window.confirm('Are you sure you want to delete this service?')) {
+      client
+        .delete(`/services/my-services/${id}/`)
+        .then(() => fetchServices())
+        .catch((err) => alert('Could not delete service.'))
+    }
+  }
+
   if (loadError) return <Alert variant="danger">{loadError}</Alert>
   if (!profile) return <p>Loading...</p>
 
   const canSubmit = profile.status === 'incomplete' || profile.status === 'rejected'
 
   return (
-    <div>
+    <div className="container py-4">
       <h1>Provider dashboard</h1>
       <p className="text-muted">Welcome, {user.name}</p>
 
       <StatusBanner profile={profile} />
 
+      {/* Haris Task: Services Management Section */}
+      <Card className="mb-4 shadow-sm">
+        <Card.Header className="d-flex justify-content-between align-items-center bg-white py-3">
+          <h2 className="h5 mb-0 font-weight-bold">Manage Your Services</h2>
+          <Button variant="primary" onClick={() => handleOpenModal()}>
+            + Add New Service
+          </Button>
+        </Card.Header>
+        <Card.Body>
+          {services.length === 0 ? (
+            <p className="text-muted mb-0">No services added yet. Click "+ Add New Service" to list what you offer.</p>
+          ) : (
+            <Table responsive striped hover className="mb-0 align-middle">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th className="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {services.map((service) => (
+                  <tr key={service.id}>
+                    <td>
+                      <strong>{service.title}</strong>
+                      {service.description && <div className="text-muted small">{service.description}</div>}
+                    </td>
+                    <td>
+                      {allCategories.find((c) => c.id === service.category)?.name || service.category_name || 'Category'}
+                    </td>
+                    <td>${service.price}</td>
+                    <td className="text-end">
+                      <Button variant="outline-primary" size="sm" className="me-2" onClick={() => handleOpenModal(service)}>
+                        Edit
+                      </Button>
+                      <Button variant="outline-danger" size="sm" onClick={() => handleDeleteService(service.id)}>
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          )}
+        </Card.Body>
+      </Card>
+
+      {/* Verification Form Section */}
       {canSubmit && (
         <Form onSubmit={handleSubmit} className="form-card">
           <h2 className="h4 mb-3">Verification form</h2>
@@ -175,6 +303,84 @@ export default function ProviderDashboard() {
           </Button>
         </Form>
       )}
+
+      {/* Modal for Creating / Editing Service */}
+      <Modal show={showServiceModal} onHide={handleCloseModal} centered>
+        <Form onSubmit={handleServiceSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>{editingServiceId ? 'Edit Service' : 'Add New Service'}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {serviceErrors.detail && <Alert variant="danger">{serviceErrors.detail}</Alert>}
+
+            <Form.Group className="mb-3" controlId="service_title">
+              <Form.Label>Service Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                placeholder="e.g. Sink Leak Repair"
+                value={serviceForm.title}
+                onChange={handleServiceChange}
+                required
+              />
+              <FieldError errors={serviceErrors} name="title" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="service_category">
+              <Form.Label>Category</Form.Label>
+              <Form.Select
+                name="category"
+                value={serviceForm.category}
+                onChange={handleServiceChange}
+                required
+              >
+                <option value="">Select a category...</option>
+                {allCategories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </Form.Select>
+              <FieldError errors={serviceErrors} name="category" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="service_price">
+              <Form.Label>Price ($)</Form.Label>
+              <Form.Control
+                type="number"
+                step="0.01"
+                name="price"
+                placeholder="e.g. 75.00"
+                value={serviceForm.price}
+                onChange={handleServiceChange}
+                required
+              />
+              <FieldError errors={serviceErrors} name="price" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="service_description">
+              <Form.Label>Description (Optional)</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={3}
+                name="description"
+                placeholder="Describe what's included in this service..."
+                value={serviceForm.description}
+                onChange={handleServiceChange}
+              />
+              <FieldError errors={serviceErrors} name="description" />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseModal}>
+              Cancel
+            </Button>
+            <Button variant="orange" className="btn-orange" type="submit" disabled={savingService}>
+              {savingService ? 'Saving...' : editingServiceId ? 'Update Service' : 'Add Service'}
+            </Button>
+          </Modal.Footer>
+        </Form>
+      </Modal>
     </div>
   )
 }
