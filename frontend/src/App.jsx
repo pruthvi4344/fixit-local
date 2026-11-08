@@ -7,7 +7,6 @@ import ProtectedRoute from './components/ProtectedRoute.jsx'
 import Home from './pages/Home.jsx'
 import Services from './pages/Services.jsx'
 import ProviderDetail from './pages/ProviderDetail.jsx'
-import Booking from './pages/Booking.jsx'
 import MyBookings from './pages/MyBookings.jsx'
 import ProviderDashboard from './pages/ProviderDashboard.jsx'
 import Login from './pages/Login.jsx'
@@ -71,7 +70,6 @@ export default function App() {
             <Route path="/team" element={<Team />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/book/:serviceId" element={<Booking />} />
               <Route path="/my-bookings" element={<MyBookings />} />
               <Route path="/review/:bookingId" element={<Review />} />
               <Route path="/favourites" element={<Favourites />} />

@@ -28,7 +28,9 @@ export default function Login() {
   }
 
   // Customers go to their page and providers go to the dashboard.
-  if (user) return <Navigate to={homeFor(user)} replace />
+  // Guests sent here from a protected page (or the Book button) go back there.
+  const from = location.state?.from
+  if (user) return <Navigate to={from ? from.pathname + (from.search ?? '') : homeFor(user)} replace />
 
   return (
     <div className="auth-card">

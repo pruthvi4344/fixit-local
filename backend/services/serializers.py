@@ -14,11 +14,23 @@ class ServiceCategorySerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    """Read-only list on the public profile: the category shows as its name."""
+
     category = serializers.StringRelatedField()
 
     class Meta:
         model = Service
-        fields = ["id", "title", "category", "price"]
+        fields = ["id", "title", "category", "price", "description"]
+
+
+class ProviderServiceSerializer(serializers.ModelSerializer):
+    """Used by the dashboard: the category is written as an id and read back with its name too."""
+
+    category_name = serializers.CharField(source="category.name", read_only=True)
+
+    class Meta:
+        model = Service
+        fields = ["id", "title", "category", "category_name", "price", "description"]
 
 
 class ProviderCardSerializer(serializers.ModelSerializer):
