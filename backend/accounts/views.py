@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework import generics, permissions
 from .models import ProviderProfile
 from .serializers import (
     LoginSerializer,
@@ -66,7 +66,22 @@ class MeView(APIView):
         if request.user.is_authenticated:
             return Response({"user": user_data(request.user)})
         return Response({"user": None})
+    
+    def patch(self, request):
+        if not request.user.is_authenticated:
+            return Response({"detail": "Authentication required."}, status=status.HTTP_401_UNAUTHORIZED)
 
+        user = request.user
+        # Update user profile fields if provided in request
+        if "first_name" in request.data:
+            user.first_name = request.data["first_name"]
+        if "last_name" in request.data:
+            user.last_name = request.data["last_name"]
+        if "phone_number" in request.data and hasattr(user, "phone_number"):
+            user.phone_number = request.data["phone_number"]
+
+        user.save()
+        return Response({"user": user_data(user), "message": "Profile updated successfully"})
 
 class ProviderProfileView(APIView):
     """The logged in provider reads and submits their verification form."""

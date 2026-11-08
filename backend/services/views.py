@@ -96,13 +96,3 @@ class ProviderServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
         return Service.objects.filter(provider__user=self.request.user)
 
 
-class MeView(generics.RetrieveUpdateAPIView):
-    """
-    GET: Retrieve current user details
-    PUT/PATCH: Update name, phone number, and profile photo
-    """
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = UserSerializer
-
-    def get_object(self):
-        return self.request.user
