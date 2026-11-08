@@ -5,10 +5,10 @@ from rest_framework import generics
 
 from accounts.models import ProviderProfile
 
-from .models import ServiceCategory
-from .serializers import ProviderCardSerializer, ProviderDetailSerializer, ServiceCategorySerializer
+from .models import ServiceCategory, Service
+from .serializers import ProviderCardSerializer, ProviderDetailSerializer, ServiceCategorySerializer, ServiceSerializer
 
-# Owner: Pruthviraj
+from rest_framework import generics, permissions
 
 
 def verified_providers():
@@ -68,3 +68,41 @@ class ProviderDetailView(DetailView):
     def render_to_response(self, context, **response_kwargs):
         serializer = ProviderDetailSerializer(context["object"], context={"request": self.request})
         return JsonResponse(serializer.data)
+
+class ProviderServiceListCreateView(generics.ListCreateAPIView):
+    """
+    List services created by the logged-in provider, or create a new service.
+    """
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        # Return only services belonging to the logged-in user's provider profile
+        return Service.objects.filter(provider__user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically set the provider to the logged-in user's provider profile
+        serializer.save(provider=self.request.user.provider_profile)
+
+
+class ProviderServiceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Retrieve, update, or delete a specific service owned by the logged-in provider.
+    """
+    serializer_class = ServiceSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Service.objects.filter(provider__user=self.request.user)
+
+
+class MeView(generics.RetrieveUpdateAPIView):
+    """
+    GET: Retrieve current user details
+    PUT/PATCH: Update name, phone number, and profile photo
+    """
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = UserSerializer
+
+    def get_object(self):
+        return self.request.user
