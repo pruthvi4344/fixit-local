@@ -65,7 +65,10 @@ class ProviderPagesTests(TestCase):
         self.assertEqual(self.client.get("/api/services/providers/99999/").status_code, 404)
 
     def test_list_does_not_run_more_queries_for_more_providers(self):
-        with self.assertNumQueries(4):
+        self.client.get("/api/services/providers/")  # first visit saves the visitor's session once
+        # Loading the session, then providers, their categories, their services
+        # and the service categories: 5 queries no matter how many providers there are.
+        with self.assertNumQueries(5):
             self.client.get("/api/services/providers/")
 
 
