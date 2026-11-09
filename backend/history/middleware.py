@@ -27,7 +27,11 @@ class VisitTrackingMiddleware:
         )
         if is_visit:
             count += 1
-        request.session["visits_today"] = {"date": today, "count": count}
+        # Only save when the count changed. Writing the session on every API
+        # call would mean a database write for every single request.
+        visits = {"date": today, "count": count}
+        if request.session.get("visits_today") != visits:
+            request.session["visits_today"] = visits
 
         response = self.get_response(request)
 
